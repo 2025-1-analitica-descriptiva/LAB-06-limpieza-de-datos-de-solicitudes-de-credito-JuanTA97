@@ -3,18 +3,15 @@ Escriba el codigo que ejecute la accion solicitada en la pregunta.
 """
 import pandas as pd
 import os
-import glob
-import datetime as dt
-import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+import unicodedata
 
 def pregunta_01():
 
     # Cargar el archivo CSV
-    path = "files/input/solicitudes_de_credito.csv"
-    df = pd.read_csv(path, sep=";")
+    path_in = "files/input/solicitudes_de_credito.csv"
+    path_out = "files/output/solicitudes_de_credito.csv"
+
+    df = pd.read_csv(path_in, sep=";")
 
     df = df.dropna()
 
@@ -65,13 +62,9 @@ def pregunta_01():
             os.rmdir(output_directory)
         os.makedirs(output_directory)
 
-    #Guardamos el DataFrame limpio en un nuevo archivo CSV
-    def save_output(df, output_directory):
-        df.to_csv(output_directory + "/solicitudes_de_credito.csv", sep=";", encoding="utf-8")
-
-    # Ejecutamos las funciones de creación de directorio y guardado
-    output_directory("files/output")
-    save_output(df, "files/output")
+    # Crear carpeta y guardar
+    os.makedirs(os.path.dirname(path_out), exist_ok=True)
+    df.to_csv(path_out, sep=";", index=False, encoding="utf-8")
 
 
     """
